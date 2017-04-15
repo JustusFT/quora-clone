@@ -1,5 +1,8 @@
 <h1>Hello World</h1>
 <p>See Me in views/static/index.html.erb</p>
+<a href='/question/new'>Create new question</a>
+
+<!-- login section -->
 <% unless logged_in? %>
   <%= "<a href='login'>Log in</a>" %>
   <%= "<a href='signup'>Register</a>" %>
@@ -7,12 +10,32 @@
   <%= "<a href='logout'>Sign out</a>" %>
 <% end %>
 
-<%= session["user"] %>
-<%= current_user %>
-
+<!-- generate all questions on the front page -->
 <% Question.all.each do |x| %>
   <%= ("
-    <h3>#{x.title}</h3>
+    <h3><a href='/question/#{x.id}'>#{x.title}</a></h3>
     <h5>Asked by #{User.find(x.user_id).full_name}
+    <span>Currently has #{QuestionVote.where("question_id = ?", x.id).count} updoots</span>
   ") %>
+  <!-- TODO shorten updoot conditions; make more DRY -->
+  <!-- upvoting requires being logged in -->
+  <% if logged_in? %>
+    <!-- Check if already upvoted -->
+    <% if QuestionVote.find_by("question_id = ? AND user_id = ?", x.id, current_user.id).nil? %>
+      <%= "<form method='post' action='/question/#{x.id}/upvote' name='upvote'>" %>
+          <input type=submit value="updoot">
+      </form>
+    <% else %>
+      <%= "<form method='post' action='/question/#{x.id}/remove-vote' name='remove-vote'>" %>
+          <input type=submit value="updooted">
+      </form>
+    <% end %>
+  <% else %>
+    <form method='get' action='/login'>
+        <input type=submit value="updoot">
+    </form>
+    <form method='get' action='/login'>
+        <input type=submit value="downvote">
+    </form>
+  <% end %>
 <% end %>

@@ -57,7 +57,7 @@ post '/question/create' do
   question = Question.new(params[:question])
   question.user_id = current_user.id
   if question.save
-    "<h1>Question successfully saved!<h1>"
+    redirect "/"
   else
     "ERROR"
   end
@@ -75,6 +75,26 @@ post "/question/:id/answer" do
   answer.user_id = current_user.id
   if answer.save
     redirect to("/question/#{params[:id]}")
+  else
+    "ERROR"
+  end
+end
+
+post "/question/:id/upvote" do
+  vote = QuestionVote.new
+  vote.question_id = params[:id]
+  vote.user_id = current_user.id
+  if vote.save
+    redirect "/"
+  else
+    "ERROR"
+  end
+end
+
+post "/question/:id/remove-vote" do
+  vote = QuestionVote.find_by("question_id = ? AND user_id = ?", params[:id], current_user.id)
+  if vote.destroy
+    redirect "/"
   else
     "ERROR"
   end
