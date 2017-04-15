@@ -44,7 +44,28 @@ end
 
 get '/users/:id' do
   # some code here
-  user = User.find_by_id(params[:id])
-  puts user
-  user.id.to_s
+  @user = User.find_by_id(params[:id])
+  erb :"static/profile"
+end
+
+get '/question/new' do
+  erb :"static/new"
+end
+
+post '/question/create' do
+  puts "HERE"
+  question = Question.new(params[:question])
+  question.user_id = current_user.id
+  if question.save
+    "<h1>Question successfully saved!<h1>"
+  else
+    "ERROR"
+  end
+end
+
+get "/question/:id" do
+  question = Question.find(params[:id])
+  # return "#{question.title}"
+  @question = question
+  erb :"static/question"
 end

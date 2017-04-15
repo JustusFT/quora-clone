@@ -1,0 +1,6 @@
+<h5>User's Name:</h5>
+<%= @user.full_name %>
+<h5>Questions:</h5>
+<% @user.questions.each do |x| %>
+  <%= x.title %>
+<% end %>

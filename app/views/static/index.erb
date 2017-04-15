@@ -9,3 +9,10 @@
 
 <%= session["user"] %>
 <%= current_user %>
+
+<% Question.all.each do |x| %>
+  <%= ("
+    <h3>#{x.title}</h3>
+    <h5>Asked by #{User.find(x.user_id).full_name}
+  ") %>
+<% end %>
