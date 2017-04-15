@@ -1,2 +1,11 @@
 <h1>Hello World</h1>
 <p>See Me in views/static/index.html.erb</p>
+<% unless logged_in? %>
+  <%= "<a href='login'>Log in</a>" %>
+  <%= "<a href='signup'>Register</a>" %>
+<% else %>
+  <%= "<a href='logout'>Sign out</a>" %>
+<% end %>
+
+<%= session["user"] %>
+<%= current_user %>
