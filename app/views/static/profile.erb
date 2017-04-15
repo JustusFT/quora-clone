@@ -4,3 +4,7 @@
 <% @user.questions.each do |x| %>
   <%= x.title %>
 <% end %>
+<h5>Answers:</h5>
+<% @user.answers.each do |x| %>
+  <%= x.answer %>
+<% end %>

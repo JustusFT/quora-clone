@@ -1,3 +1,21 @@
 <h1><%= @question.title %></h1>
 <h3>Asked by <%= "#{User.find(@question.user_id).full_name}" %></h3>
 <p><%= @question.description %></p>
+<h3>ANSWER HERE</h3>
+<% unless logged_in? %>
+  <span>You must log in to answer.</span><a href='../login'>Login</a>
+<% else %>
+  <label for='answer[answer]'>description</label><textarea name='answer[answer]' form='answer'></textarea>
+
+  <%= "<form method='post' action='/question/#{@question.id}/answer' id='answer'>" %>
+    <input type='submit' value='Submit'>
+  </form>
+<% end %>
+
+<h3>ANSWERS</h3>
+<% @question.answers.each do |x| %>
+  <%= ("
+    <h5>Answer by #{User.find(x.user_id).full_name}</h5>
+    <p>#{x.answer}</p>
+  ") %>
+<% end %>
