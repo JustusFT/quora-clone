@@ -3,10 +3,12 @@ class AddVoting < ActiveRecord::Migration
 		create_table :question_votes do |t|
 			t.integer :question_id, null: false
 			t.integer :user_id, null: false
+			t.string :vote_type, null: false
 		end
 		create_table :answer_votes do |t|
 			t.integer :answer_id, null: false
 			t.integer :user_id, null: false
+			t.string :vote_type, null: false
 		end
 		add_foreign_key :question_votes, :questions
 		add_foreign_key :question_votes, :users

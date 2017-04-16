@@ -15,19 +15,29 @@
   <%= ("
     <h3><a href='/question/#{x.id}'>#{x.title}</a></h3>
     <h5>Asked by #{User.find(x.user_id).full_name}
-    <span>Currently has #{QuestionVote.where("question_id = ?", x.id).count} updoots</span>
+    <span>Currently has #{QuestionVote.where("question_id = ? AND vote_type = ?", x.id, "upvote").count - QuestionVote.where("question_id = ? AND vote_type = ?", x.id, "downvote").count} updoots</span>
   ") %>
   <!-- TODO shorten updoot conditions; make more DRY -->
   <!-- upvoting requires being logged in -->
   <% if logged_in? %>
     <!-- Check if already upvoted -->
-    <% if QuestionVote.find_by("question_id = ? AND user_id = ?", x.id, current_user.id).nil? %>
+    <% if QuestionVote.find_by("question_id = ? AND user_id = ? AND vote_type = ?", x.id, current_user.id, "upvote").nil? %>
       <%= "<form method='post' action='/question/#{x.id}/upvote' name='upvote'>" %>
           <input type=submit value="updoot">
       </form>
     <% else %>
       <%= "<form method='post' action='/question/#{x.id}/remove-vote' name='remove-vote'>" %>
           <input type=submit value="updooted">
+      </form>
+    <% end %>
+    <!-- Check if already downvoted -->
+    <% if QuestionVote.find_by("question_id = ? AND user_id = ? AND vote_type = ?", x.id, current_user.id, "downvote").nil? %>
+      <%= "<form method='post' action='/question/#{x.id}/downvote' name='downvote'>" %>
+          <input type=submit value="downvote">
+      </form>
+    <% else %>
+      <%= "<form method='post' action='/question/#{x.id}/remove-vote' name='remove-vote'>" %>
+          <input type=submit value="downvoted">
       </form>
     <% end %>
   <% else %>

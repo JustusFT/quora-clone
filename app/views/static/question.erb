@@ -17,5 +17,34 @@
   <%= ("
     <h5>Answer by #{User.find(x.user_id).full_name}</h5>
     <p>#{x.answer}</p>
+    <span>Currently has #{AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "upvote").count - AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "downvote").count} updoots</span>
   ") %>
+  <% if logged_in? %>
+    <!-- Check if already upvoted -->
+    <% if AnswerVote.find_by("answer_id = ? AND user_id = ? AND vote_type = ?", x.id, current_user.id, "upvote").nil? %>
+      <%= "<form method='post' action='/answer/#{x.id}/upvote' name='upvote'>" %>
+          <input type=submit value="updoot">
+      </form>
+    <% else %>
+      <%= "<form method='post' action='/answer/#{x.id}/remove-vote' name='remove-vote'>" %>
+          <input type=submit value="updooted">
+      </form>
+    <% end %>
+    <% if AnswerVote.find_by("answer_id = ? AND user_id = ? AND vote_type = ?", x.id, current_user.id, "downvote").nil? %>
+      <%= "<form method='post' action='/answer/#{x.id}/downvote' name='downvote'>" %>
+          <input type=submit value="downvote">
+      </form>
+    <% else %>
+      <%= "<form method='post' action='/answer/#{x.id}/remove-vote' name='remove-vote'>" %>
+          <input type=submit value="downvoted">
+      </form>
+    <% end %>
+    <% else %>
+    <form method='get' action='/login'>
+        <input type=submit value="updoot">
+    </form>
+    <form method='get' action='/login'>
+        <input type=submit value="downvote">
+    </form>
+  <% end %>
 <% end %>

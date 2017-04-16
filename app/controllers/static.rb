@@ -16,7 +16,7 @@ post "/signup" do
   if user.save
     "<h1>Account successfully created!</h1><a href='../login'>login</a>"
   else
-    user.errors.messages.to_s
+    "ERROR"
   end
 end
 
@@ -81,13 +81,50 @@ post "/question/:id/answer" do
 end
 
 post "/question/:id/upvote" do
-  vote = QuestionVote.new
-  vote.question_id = params[:id]
-  vote.user_id = current_user.id
-  if vote.save
-    redirect "/"
+  #update to upvote in case it is downvoted
+  unless QuestionVote.find_by("question_id = ? AND user_id = ?", params[:id], current_user.id).nil?
+    vote = QuestionVote.find_by("question_id = ? AND user_id = ?", params[:id], current_user.id)
+    vote.vote_type = "upvote"
+    if vote.save
+      redirect "/"
+    else
+      "ERROR"
+    end
   else
-    "ERROR"
+    vote = QuestionVote.new
+    vote.question_id = params[:id]
+    vote.user_id = current_user.id
+    vote.vote_type = "upvote"
+    if vote.save
+      redirect "/"
+    else
+      "ERROR"
+    end
+  end
+end
+
+post "/question/:id/downvote" do
+  # require 'byebug'
+  # byebug
+  #update to downvote in case it is upvoted
+  unless QuestionVote.find_by("question_id = ? AND user_id = ?", params[:id], current_user.id).nil?
+    vote = QuestionVote.find_by("question_id = ? AND user_id = ?", params[:id], current_user.id)
+    vote.vote_type = "downvote"
+    if vote.save
+      redirect "/"
+    else
+      "ERROR"
+    end
+  else
+    vote = QuestionVote.new
+    vote.question_id = params[:id]
+    vote.user_id = current_user.id
+    vote.vote_type = "downvote"
+    if vote.save
+      redirect "/"
+    else
+      "ERROR"
+    end
   end
 end
 
@@ -95,6 +132,61 @@ post "/question/:id/remove-vote" do
   vote = QuestionVote.find_by("question_id = ? AND user_id = ?", params[:id], current_user.id)
   if vote.destroy
     redirect "/"
+  else
+    "ERROR"
+  end
+end
+
+post "/answer/:id/upvote" do
+  #update to upvote in case it is downvoted
+  unless AnswerVote.find_by("answer_id = ? AND user_id = ?", params[:id], current_user.id).nil?
+    vote = AnswerVote.find_by("answer_id = ? AND user_id = ?", params[:id], current_user.id)
+    vote.vote_type = "upvote"
+    if vote.save
+      redirect "/question/#{vote.answer.question.id}"
+    else
+      "ERROR"
+    end
+  else
+    vote = AnswerVote.new
+    vote.answer_id = params[:id]
+    vote.user_id = current_user.id
+    vote.vote_type = "upvote"
+    if vote.save
+      redirect "/question/#{vote.answer.question.id}"
+    else
+      "ERROR"
+    end
+  end
+end
+
+post "/answer/:id/downvote" do
+  #update to upvote in case it is downvoted
+  unless AnswerVote.find_by("answer_id = ? AND user_id = ?", params[:id], current_user.id).nil?
+    vote = AnswerVote.find_by("answer_id = ? AND user_id = ?", params[:id], current_user.id)
+    vote.vote_type = "downvote"
+    if vote.save
+      redirect "/question/#{vote.answer.question.id}"
+    else
+      "ERROR"
+    end
+  else
+    vote = AnswerVote.new
+    vote.answer_id = params[:id]
+    vote.user_id = current_user.id
+    vote.vote_type = "downvote"
+    if vote.save
+      redirect "/question/#{vote.answer.question.id}"
+    else
+      "ERROR"
+    end
+  end
+end
+
+post "/answer/:id/remove-vote" do
+  vote = AnswerVote.find_by("answer_id = ? AND user_id = ?", params[:id], current_user.id)
+  if vote.destroy
+    redirect "/question/#{vote.answer.question.id}"
   else
     "ERROR"
   end
