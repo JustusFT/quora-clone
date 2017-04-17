@@ -21,7 +21,7 @@
   <!-- upvoting requires being logged in -->
   <% if logged_in? %>
     <!-- Check if already upvoted -->
-    <% if QuestionVote.find_by("question_id = ? AND user_id = ? AND vote_type = ?", x.id, current_user.id, "upvote").nil? %>
+    <% if current_user.question_votes.find_by("question_id = ? AND vote_type = ?", x.id, "upvote").nil? %>
       <%= "<form method='post' action='/question/#{x.id}/upvote' name='upvote'>" %>
           <input type=submit value="updoot">
       </form>
@@ -31,7 +31,7 @@
       </form>
     <% end %>
     <!-- Check if already downvoted -->
-    <% if QuestionVote.find_by("question_id = ? AND user_id = ? AND vote_type = ?", x.id, current_user.id, "downvote").nil? %>
+    <% if current_user.question_votes.find_by("question_id = ? AND vote_type = ?", x.id, "downvote").nil? %>
       <%= "<form method='post' action='/question/#{x.id}/downvote' name='downvote'>" %>
           <input type=submit value="downvote">
       </form>
