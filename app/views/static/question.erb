@@ -20,9 +20,22 @@
     <span>Currently has #{AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "upvote").count - AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "downvote").count} updoots</span>
   ") %>
 
+  <!-- reply to answer -->
+  <%= ("
+    <h3>Reply to answer</h3>
+    <form method='post' action='/answer/#{x.id}/comment'>
+      <textarea name='comment[comment]'></textarea>
+      <input type='submit' value='Submit'>
+    </form>
+  ") %>
+
   <!-- voting buttons -->
   <% @model = "answer" %>
   <% @id = x.id %>
   <%= erb :"extensions/vote_buttons" %>
 
+  <!-- load comments -->
+  <% x.comments.each do |y| %>
+    <p><%= y.comment %></p>
+  <% end %>
 <% end %>

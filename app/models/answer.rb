@@ -6,7 +6,7 @@ class Answer < ActiveRecord::Base
   before_create :one_answer_per_question
   belongs_to :question
   has_many :answer_votes
-  # has_many :comments
+  has_many :comments
 
   def one_answer_per_question
     self.question.answers.each do |x|
