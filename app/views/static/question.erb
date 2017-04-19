@@ -5,7 +5,7 @@
 <% unless logged_in? %>
   <span>You must log in to answer.</span><a href='../login'>Login</a>
 <% else %>
-  <label for='answer[answer]'>description</label><textarea name='answer[answer]' form='answer'></textarea>
+  <textarea name='answer[answer]' form='answer'></textarea>
 
   <%= "<form method='post' action='/question/#{@question.id}/answer' id='answer'>" %>
     <input type='submit' value='Submit'>
@@ -14,36 +14,40 @@
 
 <h3>ANSWERS</h3>
 <% @question.answers.each do |x| %>
-  <%= ("
-    <h5>Answer by #{User.find(x.user_id).full_name}</h5>
-    <p>#{x.answer}</p>
-    <span>Currently has #{AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "upvote").count - AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "downvote").count} updoots</span>
-  ") %>
-
-  <!-- reply to answer -->
-  <%= ("
-    <h3>Reply to answer</h3>
-    <form method='post' action='/answer/#{x.id}/comment'>
-      <textarea name='comment[comment]'></textarea>
-      <input type='submit' value='Submit'>
-    </form>
-  ") %>
-
-  <!-- voting buttons -->
-  <% @model = "answer" %>
-  <% @id = x.id %>
-  <%= erb :"extensions/vote_buttons" %>
-
-  <!-- load comments -->
-  <% x.comments.each do |y| %>
-    <p><%= y.comment %></p>
-
-    <!-- get votes -->
-    <%="<span>Currently has #{CommentVote.where("comment_id = ? AND vote_type = ?", y.id, "upvote").count - CommentVote.where("comment_id = ? AND vote_type = ?", y.id, "downvote").count} updoots</span>"%>
+  <div class="answer">
+    <%= ("
+      <h5>Answer by #{User.find(x.user_id).full_name}</h5>
+      <p>#{x.answer}</p>
+      <span>Currently has #{AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "upvote").count - AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "downvote").count} updoots</span>
+    ") %>
 
     <!-- voting buttons -->
-    <% @model = "comment" %>
-    <% @id = y.id %>
-    <%= erb :"extensions/vote_buttons" %>
-  <% end %>
+    <% @model = "answer" %>
+    <% @id = x.id %>
+    <%= erb :"extensions/vote_buttons", layout: false %>
+
+    <!-- reply to answer -->
+    <%= ("
+      <h3>Reply to answer</h3>
+      <form method='post' action='/answer/#{x.id}/comment'>
+        <textarea name='comment[comment]'></textarea>
+        <input type='submit' value='Submit'>
+      </form>
+    ") %>
+
+    <!-- load comments -->
+    <% x.comments.each do |y| %>
+      <div class="comment">
+        <p><%= y.comment %></p>
+
+        <!-- get votes -->
+        <%="<span>Currently has #{CommentVote.where("comment_id = ? AND vote_type = ?", y.id, "upvote").count - CommentVote.where("comment_id = ? AND vote_type = ?", y.id, "downvote").count} updoots</span>"%>
+
+        <!-- voting buttons -->
+        <% @model = "comment" %>
+        <% @id = y.id %>
+        <%= erb :"extensions/vote_buttons", layout: false %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

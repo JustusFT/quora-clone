@@ -1,14 +1,5 @@
 <h1>Hello World</h1>
 <p>See Me in views/static/index.html.erb</p>
-<a href='/question/new'>Create new question</a>
-
-<!-- login section -->
-<% unless logged_in? %>
-  <%= "<a href='login'>Log in</a>" %>
-  <%= "<a href='signup'>Register</a>" %>
-<% else %>
-  <%= "<a href='logout'>Sign out</a>" %>
-<% end %>
 
 <!-- generate all questions on the front page -->
 <% Question.all.each do |x| %>
@@ -21,6 +12,6 @@
   <!-- voting buttons -->
   <% @model = "question" %>
   <% @id = x.id %>
-  <%= erb :"extensions/vote_buttons" %>
+  <%= erb :"extensions/vote_buttons", layout: false %>
 
 <% end %>
