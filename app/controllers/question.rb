@@ -33,26 +33,12 @@ end
 #
 # VOTING
 #
-post "/question/:id/upvote" do
-  if current_user.vote("upvote", "question", params[:id])
-    redirect "/"
-  else
-    "ERROR"
-  end
-end
-
-post "/question/:id/downvote" do
-  if current_user.vote("downvote", "question", params[:id])
-    redirect "/"
-  else
-    "ERROR"
-  end
+post "/question/:id/vote" do
+  Question.find(params[:id]).vote(current_user, params[:vote_type])
+  redirect "/"
 end
 
 post "/question/:id/remove-vote" do
-  if current_user.remove_vote("question", params[:id])
-    redirect "/"
-  else
-    "ERROR"
-  end
+  Question.find(params[:id]).remove_vote(current_user, params[:id])
+  redirect "/"
 end

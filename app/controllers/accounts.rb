@@ -18,17 +18,16 @@ end
 
 post "/login" do
   user = User.find_by_email(params[:user][:email])
+  # check if valid login
   if !user.nil? && user.try(:authenticate, params[:user][:password])
-    # "SUCCESS"
     session["user"] = user.id
-    redirect to("/")
+    redirect "/"
   else
     erb :"static/login"
   end
 end
 
-#TODO use post request instead???
-get "/logout" do
+post "/logout" do
   session.delete("user")
-  redirect to("/")
+  redirect "/"
 end

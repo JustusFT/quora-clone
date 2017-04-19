@@ -1,29 +1,32 @@
 <% if logged_in? %>
-  <!-- Check if already upvoted -->
-  <% if current_user.send("#{@model}_votes").find_by("#{@model}_id = ? AND vote_type = ?", @id, "upvote").nil? %>
-    <%= "<form method='post' action='/#{@model}/#{@id}/upvote' name='upvote'>" %>
-        <input type=submit value="updoot">
+  <%# Check if already upvoted %>
+  <% @vote = get_vote(@model, @id) %>
+  <% unless voted?(@vote) && @vote.vote_type == 'upvote' %>
+    <%= "<form method='post' action='/#{@model}/#{@id}/vote' name='vote'>" %>
+      <input type="hidden" name="vote_type" value="upvote">
+      <input type=submit value='upvote'>
     </form>
   <% else %>
     <%= "<form method='post' action='/#{@model}/#{@id}/remove-vote' name='remove-vote'>" %>
-        <input type=submit value="updooted">
+      <input type=submit value='upvoted'>
     </form>
   <% end %>
-  <!-- Check if already downvoted -->
-  <% if current_user.send("#{@model}_votes").find_by("#{@model}_id = ? AND vote_type = ?", @id, "downvote").nil? %>
-    <%= "<form method='post' action='/#{@model}/#{@id}/downvote' name='downvote'>" %>
-        <input type=submit value="downvote">
+  <%# Check if already downvoted %>
+  <% unless voted?(@vote) && @vote.vote_type == 'downvote' %>
+    <%= "<form method='post' action='/#{@model}/#{@id}/vote' name='vote'>" %>
+      <input type="hidden" name="vote_type" value="downvote">
+      <input type=submit value='downvote'>
     </form>
   <% else %>
     <%= "<form method='post' action='/#{@model}/#{@id}/remove-vote' name='remove-vote'>" %>
-        <input type=submit value="downvoted">
+        <input type=submit value='downvoted'>
     </form>
   <% end %>
 <% else %>
   <form method='get' action='/login'>
-      <input type=submit value="updoot">
+      <input type=submit value='upvote'>
   </form>
   <form method='get' action='/login'>
-      <input type=submit value="downvote">
+      <input type=submit value='downvote'>
   </form>
 <% end %>

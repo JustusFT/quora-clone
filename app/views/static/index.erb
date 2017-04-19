@@ -15,12 +15,12 @@
   <%= ("
     <h3><a href='/question/#{x.id}'>#{x.title}</a></h3>
     <h5>Asked by #{User.find(x.user_id).full_name}
-    <span>Currently has #{QuestionVote.where("question_id = ? AND vote_type = ?", x.id, "upvote").count - QuestionVote.where("question_id = ? AND vote_type = ?", x.id, "downvote").count} updoots</span>
+    <span>Currently has #{x.rating} updoots</span>
   ") %>
 
   <!-- voting buttons -->
-  <% @id = x.id %>
   <% @model = "question" %>
+  <% @id = x.id %>
   <%= erb :"extensions/vote_buttons" %>
 
 <% end %>

@@ -53,3 +53,9 @@ Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
 # Setup controller (C)
 Dir[APP_ROOT.join('app', 'controllers', '*.rb')].each { |file| require file }
 ######################################################################
+
+# my custom init stuff goes here
+
+# Enable activesupport
+# QUESTION: is this necessary? Can I get it to be automatic?
+Dir[APP_ROOT.join('app', 'controllers', 'concerns', '*.rb')].each {|file| require file }
