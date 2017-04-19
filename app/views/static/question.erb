@@ -37,5 +37,13 @@
   <!-- load comments -->
   <% x.comments.each do |y| %>
     <p><%= y.comment %></p>
+
+    <!-- get votes -->
+    <%="<span>Currently has #{CommentVote.where("comment_id = ? AND vote_type = ?", y.id, "upvote").count - CommentVote.where("comment_id = ? AND vote_type = ?", y.id, "downvote").count} updoots</span>"%>
+
+    <!-- voting buttons -->
+    <% @model = "comment" %>
+    <% @id = y.id %>
+    <%= erb :"extensions/vote_buttons" %>
   <% end %>
 <% end %>

@@ -10,3 +10,13 @@ post "/answer/:id/comment" do
     "ERROR"
   end
 end
+
+post "/comment/:id/vote" do
+  Comment.find(params[:id]).vote(current_user, params[:vote_type])
+  redirect "/"
+end
+
+post "/comment/:id/remove-vote" do
+  Comment.find(params[:id]).remove_vote(current_user, params[:id])
+  redirect "/"
+end
