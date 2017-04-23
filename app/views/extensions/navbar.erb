@@ -1,0 +1,23 @@
+<nav id="main-navbar" class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        test
+      </button>
+      <a class="navbar-brand" href="/">Not Quora</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <% unless logged_in? %>
+          <li><a data-toggle="modal" data-target="#modal-login">Create new question</a></li>
+          <li><a data-toggle="modal" data-target="#modal-login">Log in</a></li>
+          <li><a data-toggle="modal" data-target="#modal-register">Register</a></li>
+        <% else %>
+          <li><a data-toggle="modal" data-target="#modal-create-question">Create new question</a></li>
+          <li><a id="post-logout" href="#">Sign out</a></li>
+          <%= "<li><a href='/user/#{current_user.id}'>#{current_user.full_name}</a></li>" %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,120 @@
+<!-- Login -->
+<div id="modal-login" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Login</h4>
+      </div>
+      <div class="modal-body">
+        <span style="display: inline-block">
+          <form method="post" action="/login">
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="user[email]">Email</label>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" placeholder="Email" name="user[email]">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="user[password]">Password</label>
+              </div>
+              <div class="col-sm-6">
+                <input type="password" placeholder="Password" name="user[password]"></br>
+              </div>
+            </div>
+            <input type=submit value="Sign in">
+          </form>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Register -->
+<div id="modal-register" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Register</h4>
+      </div>
+      <div class="modal-body">
+        <span style="display: inline-block">
+          <form method="post" action="/signup">
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="user[full_name]">Full Name</label>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" placeholder="Full Name" name="user[full_name]">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="user[full_name]">Email</label>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" placeholder="Email" name="user[email]">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="user[full_name]">Password</label>
+              </div>
+              <div class="col-sm-6">
+                <input type="password" placeholder="Password" name="user[password]">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="user[full_name]">Confirm Password</label>
+              </div>
+              <div class="col-sm-6">
+                <input type="password" placeholder="Confirm Password" name="user[password_confirmation]">
+              </div>
+            </div>
+            <input type=submit value="Sign up">
+          </form>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Question -->
+<div id="modal-create-question" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create Question</h4>
+      </div>
+      <div class="modal-body">
+        <span style="display: inline-block">
+          <form method='post' action='question/create' id='question'>
+            <div class="row">
+              <div class="col-sm-6">
+                <label for='question[title]'>Question</label>
+              </div>
+              <div class="col-sm-6">
+                <input type='text' name='question[title]'>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label for='question[description]'>Description</label>
+              </div>
+              <div class="col-sm-6">
+                <textarea name='question[description]'></textarea>
+              </div>
+            </div>
+            <input type='submit' value='Submit'>
+          </form>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
