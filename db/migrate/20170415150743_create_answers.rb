@@ -4,6 +4,7 @@ class CreateAnswers < ActiveRecord::Migration
 			t.string :answer, null: false
 			t.integer :user_id, null: false
 			t.integer :question_id, null: false
+			t.timestamps
 		end
 		add_foreign_key :answers, :users
 		add_foreign_key :answers, :questions

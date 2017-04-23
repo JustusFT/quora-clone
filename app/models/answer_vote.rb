@@ -1,5 +1,3 @@
 class AnswerVote < Vote
-  validates :answer_id, presence: true
-  belongs_to :answer
-  belongs_to :user
+	# This is Sinatra! Remember to create a migration!
 end

@@ -4,7 +4,6 @@ class Comment < ActiveRecord::Base
   validates :answer_id, presence: true
   belongs_to :user
   belongs_to :answer
-  has_many :comment_votes
 
   include Votable
 end

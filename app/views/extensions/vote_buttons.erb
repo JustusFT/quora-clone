@@ -1,25 +1,27 @@
 <% if logged_in? %>
+  <%# e.g. Question => "question" %>
+  <% @type = @instance.class.to_s.downcase %>
   <%# Check if already upvoted %>
   <%= "<span>Currently has #{@instance.rating} updoots</span>" %>
-  <% @vote = get_vote(@model, @id) %>
-  <% unless voted?(@vote) && @vote.vote_type == 'upvote' %>
-    <%= "<form method='post' action='/#{@model}/#{@id}/vote' name='vote' class='vote'>" %>
+  <% @vote = Vote.find_by(type: @instance.votes.first.class.to_s, voting_id: @instance.id, user_id: current_user.id) %>
+  <% unless !@vote.nil? && @vote.vote_type == 'upvote' %>
+    <%= "<form method='post' action='/#{@type}/#{@instance.id}/vote' name='vote' class='vote'>" %>
       <input type="hidden" name="vote_type" value="upvote">
       <input type=submit value='Upvote' class='upvote btn btn-primary'>
     </form>
   <% else %>
-    <%= "<form method='post' action='/#{@model}/#{@id}/remove-vote' name='remove-vote' class='vote'>" %>
+    <%= "<form method='post' action='/#{@type}/#{@instance.id}/remove-vote' name='remove-vote' class='vote'>" %>
       <input type=submit value='Upvoted' class='upvote btn btn-primary'>
     </form>
   <% end %>
   <%# Check if already downvoted %>
-  <% unless voted?(@vote) && @vote.vote_type == 'downvote' %>
-    <%= "<form method='post' action='/#{@model}/#{@id}/vote' name='vote' class='vote'>" %>
+  <% unless !@vote.nil? && @vote.vote_type == 'downvote' %>
+    <%= "<form method='post' action='/#{@type}/#{@instance.id}/vote' name='vote' class='vote'>" %>
       <input type="hidden" name="vote_type" value="downvote">
       <input type=submit value='Downvote' class='downvote btn'>
     </form>
   <% else %>
-    <%= "<form method='post' action='/#{@model}/#{@id}/remove-vote' name='remove-vote' class='vote'>" %>
+    <%= "<form method='post' action='/#{@type}/#{@instance.id}/remove-vote' name='remove-vote' class='vote'>" %>
         <input type=submit value='Downvoted' class='downvote btn'>
     </form>
   <% end %>

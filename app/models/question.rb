@@ -1,7 +1,8 @@
 class Question < ActiveRecord::Base
   validates :title, presence: true
-  has_many :question_votes
+  validates :user_id, presence: true
   has_many :answers
+  belongs_to :user
 
   include Votable
 end

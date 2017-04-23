@@ -13,11 +13,7 @@ helpers do
   end
 
   # get a certain vote from user
-  def get_vote(model, id)
-    current_user.send("#{model}_votes").find_by("#{model}_id = ?", id)
-  end
-
-  def voted?(vote)
-    !vote.nil?
-  end
+  # def get_vote(type, id)
+  #   current_user.votes.find_by(type: type, voting_id: id)
+  # end
 end

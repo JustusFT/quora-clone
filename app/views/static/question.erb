@@ -20,9 +20,6 @@
           </form>
         </span>
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div> -->
     </div>
   </div>
 </div>
@@ -47,8 +44,6 @@
 
     <!-- voting buttons -->
     <div class="vote-buttons">
-      <% @model = "answer" %>
-      <% @id = x.id %>
       <% @instance = x %>
       <%= erb :"extensions/vote_buttons", layout: false %>
     </div>
@@ -73,8 +68,6 @@
 
           <!-- voting buttons -->
           <div class="vote-buttons">
-            <% @model = "comment" %>
-            <% @id = y.id %>
             <% @instance = x %>
             <%= erb :"extensions/vote_buttons", layout: false %>
           </div>

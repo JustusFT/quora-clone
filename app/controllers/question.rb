@@ -34,17 +34,13 @@ end
 # VOTING
 #
 post "/question/:id/vote" do
-  Question.find(params[:id]).vote(current_user, params[:vote_type])
-  @model = "question"
-  @id = params[:id]
   @instance = Question.find(params[:id])
+  @instance.vote(current_user, params[:vote_type])
   return erb :"extensions/vote_buttons", layout: false
 end
 
 post "/question/:id/remove-vote" do
-  Question.find(params[:id]).remove_vote(current_user, params[:id])
-  @model = "question"
-  @id = params[:id]
   @instance = Question.find(params[:id])
+  @instance.remove_vote(current_user, params[:id])
   return erb :"extensions/vote_buttons", layout: false
 end

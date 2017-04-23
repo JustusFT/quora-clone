@@ -7,9 +7,7 @@ class User < ActiveRecord::Base
   has_many :questions
   has_many :answers
   has_many :comments
-  has_many :question_votes
-  has_many :answer_votes
-  has_many :comment_votes
+  has_many :votes
 
   def password_validator
     unless self.password.length < 8

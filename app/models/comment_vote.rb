@@ -1,5 +1,3 @@
 class CommentVote < Vote
-  validates :comment_id, presence: true
-  belongs_to :comment
-  belongs_to :user
+	# This is Sinatra! Remember to create a migration!
 end
