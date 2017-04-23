@@ -1,34 +1,33 @@
-<div class="vote-buttons">
-  <% if logged_in? %>
-    <%# Check if already upvoted %>
-    <% @vote = get_vote(@model, @id) %>
-    <% unless voted?(@vote) && @vote.vote_type == 'upvote' %>
-      <%= "<form method='post' action='/#{@model}/#{@id}/vote' name='vote'>" %>
-        <input type="hidden" name="vote_type" value="upvote">
-        <input type=submit value='upvote'>
-      </form>
-    <% else %>
-      <%= "<form method='post' action='/#{@model}/#{@id}/remove-vote' name='remove-vote'>" %>
-        <input type=submit value='upvoted'>
-      </form>
-    <% end %>
-    <%# Check if already downvoted %>
-    <% unless voted?(@vote) && @vote.vote_type == 'downvote' %>
-      <%= "<form method='post' action='/#{@model}/#{@id}/vote' name='vote'>" %>
-        <input type="hidden" name="vote_type" value="downvote">
-        <input type=submit value='downvote'>
-      </form>
-    <% else %>
-      <%= "<form method='post' action='/#{@model}/#{@id}/remove-vote' name='remove-vote'>" %>
-          <input type=submit value='downvoted'>
-      </form>
-    <% end %>
-  <% else %>
-    <form method='get' action='/login'>
-        <input type=submit value='upvote'>
+<% if logged_in? %>
+  <%# Check if already upvoted %>
+  <%= "<span>Currently has #{@instance.rating} updoots</span>" %>
+  <% @vote = get_vote(@model, @id) %>
+  <% unless voted?(@vote) && @vote.vote_type == 'upvote' %>
+    <%= "<form method='post' action='/#{@model}/#{@id}/vote' name='vote' class='vote'>" %>
+      <input type="hidden" name="vote_type" value="upvote">
+      <input type=submit value='Upvote' class='upvote btn btn-primary'>
     </form>
-    <form method='get' action='/login'>
-        <input type=submit value='downvote'>
+  <% else %>
+    <%= "<form method='post' action='/#{@model}/#{@id}/remove-vote' name='remove-vote' class='vote'>" %>
+      <input type=submit value='Upvoted' class='upvote btn btn-primary'>
     </form>
   <% end %>
-</div>
+  <%# Check if already downvoted %>
+  <% unless voted?(@vote) && @vote.vote_type == 'downvote' %>
+    <%= "<form method='post' action='/#{@model}/#{@id}/vote' name='vote' class='vote'>" %>
+      <input type="hidden" name="vote_type" value="downvote">
+      <input type=submit value='Downvote' class='downvote btn'>
+    </form>
+  <% else %>
+    <%= "<form method='post' action='/#{@model}/#{@id}/remove-vote' name='remove-vote' class='vote'>" %>
+        <input type=submit value='Downvoted' class='downvote btn'>
+    </form>
+  <% end %>
+<% else %>
+  <form class="prompt-login">
+      <input type=submit value='Upvote' class="upvote btn btn-primary" data-toggle="modal" data-target="#modal-login">
+  </form>
+  <form class="prompt-login">
+      <input type=submit value='Downvote' class="downvote btn" data-toggle="modal" data-target="#modal-login">
+  </form>
+<% end %>

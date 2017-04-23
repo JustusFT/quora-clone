@@ -1,15 +1,40 @@
+<div id="modal-answer" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Answer</h4>
+      </div>
+      <div class="modal-body">
+        <span style="display: inline-block">
+          <%= "<form method='post' action='/question/#{@question.id}/answer' id='answer'>" %>
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="answer[answer]">Answer</label>
+              </div>
+              <div class="col-sm-6">
+                <textarea name='answer[answer]'></textarea>
+              </div>
+            </div>
+            <input type='submit' value='Submit'>
+          </form>
+        </span>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
 <h1><%= @question.title %></h1>
 <h3>Asked by <%= "#{User.find(@question.user_id).full_name}" %></h3>
 <p><%= @question.description %></p>
 <h3>ANSWER HERE</h3>
 <% unless logged_in? %>
-  <span>You must log in to answer.</span><a href='../login'>Login</a>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#modal-login">Answer</button>
 <% else %>
-  <textarea name='answer[answer]' form='answer'></textarea>
-
-  <%= "<form method='post' action='/question/#{@question.id}/answer' id='answer'>" %>
-    <input type='submit' value='Submit'>
-  </form>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#modal-answer">Answer</button>
 <% end %>
 
 <h3>ANSWERS</h3>
@@ -18,36 +43,44 @@
     <%= ("
       <h5>Answer by #{User.find(x.user_id).full_name}</h5>
       <p>#{x.answer}</p>
-      <span>Currently has #{AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "upvote").count - AnswerVote.where("answer_id = ? AND vote_type = ?", x.id, "downvote").count} updoots</span>
-    ") %>
+      ") %>
 
     <!-- voting buttons -->
-    <% @model = "answer" %>
-    <% @id = x.id %>
-    <%= erb :"extensions/vote_buttons", layout: false %>
+    <div class="vote-buttons">
+      <% @model = "answer" %>
+      <% @id = x.id %>
+      <% @instance = x %>
+      <%= erb :"extensions/vote_buttons", layout: false %>
+    </div>
 
-    <!-- reply to answer -->
-    <%= ("
-      <h3>Reply to answer</h3>
-      <form method='post' action='/answer/#{x.id}/comment'>
-        <textarea name='comment[comment]'></textarea>
-        <input type='submit' value='Submit'>
-      </form>
-    ") %>
+    <button class="toggle-comments btn">Toggle Comments</button>
 
-    <!-- load comments -->
-    <% x.comments.each do |y| %>
-      <div class="comment">
-        <p><%= y.comment %></p>
+    <div class="comments">
+      <!-- reply to answer -->
+      <!-- TODO non-logged in users cannot use this -->
+      <%= ("
+        <h3>Reply to answer</h3>
+        <form method='post' action='/answer/#{x.id}/comment'>
+          <textarea name='comment[comment]'></textarea>
+          <input type='submit' value='Submit'>
+        </form>
+      ") %>
 
-        <!-- get votes -->
-        <%="<span>Currently has #{CommentVote.where("comment_id = ? AND vote_type = ?", y.id, "upvote").count - CommentVote.where("comment_id = ? AND vote_type = ?", y.id, "downvote").count} updoots</span>"%>
+      <!-- load comments -->
+      <% x.comments.each do |y| %>
+        <div class="comment">
+          <p><%= y.comment %></p>
 
-        <!-- voting buttons -->
-        <% @model = "comment" %>
-        <% @id = y.id %>
-        <%= erb :"extensions/vote_buttons", layout: false %>
-      </div>
-    <% end %>
+          <!-- voting buttons -->
+          <div class="vote-buttons">
+            <% @model = "comment" %>
+            <% @id = y.id %>
+            <% @instance = x %>
+            <%= erb :"extensions/vote_buttons", layout: false %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
   </div>
 <% end %>

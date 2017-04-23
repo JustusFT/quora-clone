@@ -13,10 +13,16 @@ end
 
 post "/comment/:id/vote" do
   Comment.find(params[:id]).vote(current_user, params[:vote_type])
-  redirect "/"
+  @model = "comment"
+  @id = params[:id]
+  @instance = Comment.find(params[:id])
+  return erb :"extensions/vote_buttons", layout: false
 end
 
 post "/comment/:id/remove-vote" do
   Comment.find(params[:id]).remove_vote(current_user, params[:id])
-  redirect "/"
+  @model = "comment"
+  @id = params[:id]
+  @instance = Comment.find(params[:id])
+  return erb :"extensions/vote_buttons", layout: false
 end
