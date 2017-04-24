@@ -30,6 +30,7 @@
 	<body>
 		<%= erb :"extensions/modals", layout: false %>
 		<div id="main-container" class="container-fluid">
+			<%= flash[:msg] %>
 			<%= erb :"extensions/navbar", layout: false %>
 			<%= yield %>
 		</div>

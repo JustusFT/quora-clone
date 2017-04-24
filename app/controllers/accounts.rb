@@ -3,9 +3,11 @@
 post "/signup" do
   user = User.new(params[:user])
   if user.save
-    "Account successfully created!"
+    flash[:msg] = "Account successfully created!"
+    redirect "/"
   else
-    "ERROR"
+    flash[:msg] = "ERROR"
+    redirect "/"
   end
 end
 
@@ -16,7 +18,8 @@ post "/login" do
     session["user"] = user.id
     redirect "/"
   else
-    erb :"static/login"
+    flash[:msg] = "Invalid email or password."
+    redirect "/"
   end
 end
 

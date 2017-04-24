@@ -7,9 +7,11 @@ post '/question/create' do
   question = Question.new(params[:question])
   question.user_id = current_user.id
   if question.save
-    redirect "/"
+    flash[:msg] = "Question successfully saved!"
+    redirect "/question/#{question.id}"
   else
-    "ERROR"
+    flash[:msg] = "ERROR"
+    redirect "/"
   end
 end
 
@@ -24,9 +26,11 @@ post "/question/:id/answer" do
   answer.question_id = @question.id
   answer.user_id = current_user.id
   if answer.save
-    redirect to("/question/#{params[:id]}")
+    flash[:msg] = "Answer successfully saved!"
+    redirect "/question/#{params[:id]}"
   else
-    "ERROR"
+    flash[:msg] = "ERROR"
+    redirect "/question/#{params[:id]}"
   end
 end
 

@@ -6,9 +6,11 @@ post "/answer/:id/comment" do
     comment: params[:comment][:comment]
   )
   if comment.save
-    "SUCCESS"
+    flash[:msg] = "Comment saved successfully!"
+    redirect "/question/#{comment.answer.question.id}"
   else
-    "ERROR"
+    flash[:msg] = "ERROR"
+    redirect "/question/#{comment.answer.question.id}"
   end
 end
 
