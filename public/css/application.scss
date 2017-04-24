@@ -4,6 +4,10 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
+textarea {
+    resize: none;
+}
+
 #main-container {
   max-width: 960px;
 }
@@ -20,22 +24,14 @@ body {
 .vote-buttons {
   > form {
     display: inline-block;
-    > input {
-      &.upvote {
-        color: white;
-      }
-    }
   }
-}
-
-.question, .answer, .comment {
-  border: 1px solid #CCC;
 }
 
 .comments {
   display: none;
   .comment {
     padding-left: 32px;
+    border-left: 4px solid #AAA;
   }
 }
 

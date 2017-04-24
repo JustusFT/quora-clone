@@ -34,13 +34,13 @@ end
 # VOTING
 #
 post "/question/:id/vote" do
-  @instance = Question.find(params[:id])
-  @instance.vote(current_user, params[:vote_type])
-  return erb :"extensions/vote_buttons", layout: false
+  question = Question.find(params[:id])
+  question.vote(current_user, params[:vote_type])
+  return erb :"extensions/vote_buttons", layout: false, locals: { instance: question }
 end
 
 post "/question/:id/remove-vote" do
-  @instance = Question.find(params[:id])
-  @instance.remove_vote(current_user, params[:id])
-  return erb :"extensions/vote_buttons", layout: false
+  question = Question.find(params[:id])
+  question.remove_vote(current_user, params[:id])
+  return erb :"extensions/vote_buttons", layout: false, locals: { instance: question }
 end

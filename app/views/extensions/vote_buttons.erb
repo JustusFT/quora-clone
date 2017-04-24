@@ -1,35 +1,49 @@
+<%= "<span>#{instance.rating} points</span>" %>
 <% if logged_in? %>
   <%# e.g. Question => "question" %>
-  <% @type = @instance.class.to_s.downcase %>
+  <% @type = instance.class.to_s.downcase %>
+  <%# e.g Question => QuestionVote %>
+  <% @vote_model = "#{instance.class.to_s}Vote" %>
   <%# Check if already upvoted %>
-  <%= "<span>Currently has #{@instance.rating} updoots</span>" %>
-  <% @vote = Vote.find_by(type: @instance.votes.first.class.to_s, voting_id: @instance.id, user_id: current_user.id) %>
+  <% @vote = Vote.find_by(type: @vote_model, voting_id: instance.id, user_id: current_user.id) %>
   <% unless !@vote.nil? && @vote.vote_type == 'upvote' %>
-    <%= "<form method='post' action='/#{@type}/#{@instance.id}/vote' name='vote' class='vote'>" %>
+    <%= "<form method='post' action='/#{@type}/#{instance.id}/vote' name='vote' class='vote'>" %>
       <input type="hidden" name="vote_type" value="upvote">
-      <input type=submit value='Upvote' class='upvote btn btn-primary'>
+      <button type=submit class='upvote btn btn-default'>
+        <i class="fa fa-chevron-up" aria-hidden="true"></i> Upvote
+      </button>
     </form>
   <% else %>
-    <%= "<form method='post' action='/#{@type}/#{@instance.id}/remove-vote' name='remove-vote' class='vote'>" %>
-      <input type=submit value='Upvoted' class='upvote btn btn-primary'>
+    <%= "<form method='post' action='/#{@type}/#{instance.id}/remove-vote' name='remove-vote' class='vote'>" %>
+      <button type=submit class='upvote btn btn-primary'>
+        <i class="fa fa-chevron-up" aria-hidden="true"></i> Upvoted
+      </button>
     </form>
   <% end %>
   <%# Check if already downvoted %>
   <% unless !@vote.nil? && @vote.vote_type == 'downvote' %>
-    <%= "<form method='post' action='/#{@type}/#{@instance.id}/vote' name='vote' class='vote'>" %>
+    <%= "<form method='post' action='/#{@type}/#{instance.id}/vote' name='vote' class='vote'>" %>
       <input type="hidden" name="vote_type" value="downvote">
-      <input type=submit value='Downvote' class='downvote btn'>
+      <button type=submit class='downvote btn btn-default'>
+        <i class="fa fa-chevron-down" aria-hidden="true"></i> Downvote
+      </button>
     </form>
   <% else %>
-    <%= "<form method='post' action='/#{@type}/#{@instance.id}/remove-vote' name='remove-vote' class='vote'>" %>
-        <input type=submit value='Downvoted' class='downvote btn'>
+    <%= "<form method='post' action='/#{@type}/#{instance.id}/remove-vote' name='remove-vote' class='vote'>" %>
+      <button type=submit class='downvote btn btn-primary'>
+        <i class="fa fa-chevron-down" aria-hidden="true"></i> Downvoted
+      </button>
     </form>
   <% end %>
 <% else %>
   <form class="prompt-login">
-      <input type=submit value='Upvote' class="upvote btn btn-primary" data-toggle="modal" data-target="#modal-login">
+    <button type=submit class='upvote btn btn-default' data-toggle="modal" data-target="#modal-login">
+      <i class="fa fa-chevron-up" aria-hidden="true"></i> Upvote
+    </button>
   </form>
   <form class="prompt-login">
-      <input type=submit value='Downvote' class="downvote btn" data-toggle="modal" data-target="#modal-login">
+    <button type=submit class='downvote btn btn-default' data-toggle="modal" data-target="#modal-login">
+      <i class="fa fa-chevron-down" aria-hidden="true"></i> Downvote
+    </button>
   </form>
 <% end %>

@@ -2,14 +2,13 @@
 <% Question.all.order(created_at: :desc).each do |x| %>
   <%= ("
     <h3><a href='/question/#{x.id}'>#{x.title}</a></h3>
-    <h5>Asked by #{User.find(x.user_id).full_name}</h5>
-    <h5>Posted at #{x.created_at}</h5>
+    <p>#{x.description}</p>
+    <span>Posted at #{x.created_at} by #{User.find(x.user_id).full_name}</span>
   ") %>
 
   <!-- voting buttons -->
   <div class="vote-buttons">
-    <% @instance = x %>
-    <%= erb :"extensions/vote_buttons", layout: false %>
+    <%= erb :"extensions/vote_buttons", layout: false, locals: { instance: x } %>
   </div>
 
 <% end %>

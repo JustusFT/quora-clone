@@ -13,13 +13,13 @@ post "/answer/:id/comment" do
 end
 
 post "/comment/:id/vote" do
-  @instance = Comment.find(params[:id])
-  @instance.vote(current_user, params[:vote_type])
-  return erb :"extensions/vote_buttons", layout: false
+  comment = Comment.find(params[:id])
+  comment.vote(current_user, params[:vote_type])
+  return erb :"extensions/vote_buttons", layout: false, locals: {instance: comment}
 end
 
 post "/comment/:id/remove-vote" do
-  @instance = Comment.find(params[:id])
-  @instance.remove_vote(current_user, params[:id])
-  return erb :"extensions/vote_buttons", layout: false
+  comment = Comment.find(params[:id])
+  comment.remove_vote(current_user, params[:id])
+  return erb :"extensions/vote_buttons", layout: false, locals: {instance: comment}
 end

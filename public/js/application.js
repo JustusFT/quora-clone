@@ -53,4 +53,9 @@ $(document).ready(function() {
       }
     });
   });
+
+  $(".comment-button").click(function() {
+    $("#modal-comment form").attr("action", "/answer/" + $(this).data("answer-id") + "/comment");
+  });
+
 });

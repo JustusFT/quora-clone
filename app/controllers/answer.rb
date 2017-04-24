@@ -1,11 +1,11 @@
 post "/answer/:id/vote" do
-  @instance = Answer.find(params[:id])
-  @instance.vote(current_user, params[:vote_type])
-  return erb :"extensions/vote_buttons", layout: false
+  answer = Answer.find(params[:id])
+  answer.vote(current_user, params[:vote_type])
+  return erb :"extensions/vote_buttons", layout: false, locals: { instance: answer }
 end
 
 post "/answer/:id/remove-vote" do
-  @instance = Answer.find(params[:id])
-  @instance.remove_vote(current_user, params[:id])
-  return erb :"extensions/vote_buttons", layout: false
+  answer = Answer.find(params[:id])
+  answer.remove_vote(current_user, params[:id])
+  return erb :"extensions/vote_buttons", layout: false, locals: { instance: answer }
 end
