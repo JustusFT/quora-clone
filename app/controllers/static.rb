@@ -6,7 +6,3 @@ get "/" do
   puts current_user
   erb :"static/index"
 end
-
-get "/byebug" do
-  require "byebug"; byebug
-end
